@@ -16,6 +16,9 @@ class	Rover
 
 	def hi
 		puts "Hi, I'm Rover #{@name}"
+		puts "My start_position is #{@start_position}."
+		puts "I'm currently facing #{@facing}."
+		puts "My position is #{@position}"
 	end
 end
 
@@ -31,12 +34,12 @@ end
 
 
 ## Init variables sent from NASA
-rover1_position = [1,2,"N"]
-rover2_position = [3,3,"E"]
+rover1_position = [1, 2, "N"]
+rover2_position = [3, 3, "E"]
 
 # movement directions for the rover(s)
-rover1_directions = ["L","M","L","M","L","M","L","M","M"]
-rover2_directions = ["M","M","R","M","M","R","M","R","R","M"]
+rover1_directions = ["L", "M", "L", "M", "L", "M", "L", "M", "M"]
+rover2_directions = ["M", "M", "R", "M", "M", "R", "M", "R", "R", "M"]
 
 # instantiate two mars rovers with the above variables
 adam = Rover.new("Adam", rover1_position, rover1_directions)
@@ -44,3 +47,8 @@ eve = Rover.new("Eve", rover2_position, rover2_directions)
 
 adam.hi
 eve.hi
+
+adam.name
+adam.start_position
+adam.position
+adam.facing
