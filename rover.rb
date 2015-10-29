@@ -14,4 +14,10 @@ class	Rover
 end
 
 class Plateau
+	attr_accessor :size, :grid
+
+	def initialize(size)
+		@size = size
+		@grid = [(0...size),(0...size)]
+	end
 end
