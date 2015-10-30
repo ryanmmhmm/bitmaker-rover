@@ -106,6 +106,7 @@ adam.turn(-1)
 adam.turn(-1)
 
 adam.process_orders
+eve.process_orders
 
 # adam.name
 # adam.start_position
