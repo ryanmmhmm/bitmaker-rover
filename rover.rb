@@ -10,7 +10,7 @@ class	Rover
 	def initialize(name, start_position, orders_from_NASA)
 		@name = name
 		@start_position = start_position
-		@orders_from_NASA = orders_from_NASA
+		@orders_from_NASA = orders_from_NASA.split('')
 
 		# init position of rover
 		@position = [0..1]
@@ -19,6 +19,19 @@ class	Rover
 
 		#init direction that rover is facing
 		@facing = @@COMPASS.rotate(@@COMPASS.index(@start_position[2]))
+		@is_facing = @facing[0]
+	end
+
+	def process_orders
+		@orders_from_NASA.each do |order|
+			case order
+			when "L" then self.turn(-1)
+			when "R" then self.turn(1)
+			when "M" then self.move
+			else
+				puts "That is not a valid order."
+			end
+		end
 	end
 
 	def turn(change_direction)
@@ -32,19 +45,7 @@ class	Rover
 
 	def is_facing
 		@is_facing = @facing[0]
-		puts "#{@name} is now facing #{@is_facing[0]}"
-	end
-
-	def process_orders(position, facing, orders_from_NASA)
-		orders_from_NASA.each do |order|
-			case order
-			when "L" then self.turn(-1)
-			when "R" then self.turn(1)
-			when "M" then self.move
-			else
-				puts "That is not a valid order."
-			end
-		end
+		puts "#{@name} is facing #{@is_facing[0]}"
 	end
 
 	def move
@@ -56,13 +57,16 @@ class	Rover
 		else
 			puts "That is not a valid direction."
 		end
+
+		puts "#{@name} is now at position #{@position}"
 	end
 
 	def hi
-		puts "Hi, I'm Rover #{@name}"
+		puts "Hi, I'm Rover #{@name}!"
 		puts "My start_position is #{@start_position}."
-		puts "I'm currently facing #{@facing[0]}."
-		puts "My position is #{@position}"
+		puts "My position is #{@position}."
+		puts "I'm currently facing #{@is_facing}."
+		puts "*********"
 	end
 end
 
@@ -100,6 +104,8 @@ adam.turn(-1)
 adam.turn(-1)
 adam.turn(-1)
 adam.turn(-1)
+
+adam.process_orders
 
 # adam.name
 # adam.start_position
