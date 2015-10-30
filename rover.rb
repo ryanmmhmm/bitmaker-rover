@@ -1,14 +1,31 @@
 ## Bitmaker NASA Mars Rover assignment
 
 # require_relative 'NASA.rb'  # put init values into separate file
+class Plateau
+	attr_accessor :plateau_name, :size, :grid
+
+	def initialize(name, size)
+		@plateau_name = name
+		@size = size
+		@grid = [(0...size),(0...size)]
+
+		puts "A plateau on #{@plateau_name} has been discovered that is #{@size} x #{@size} large."
+		puts "Let's explore it!"
+		puts "*~*~*~*~*~*~*~*~*~*~*~*~*~*"
+	end
+end
 
 class	Rover
-	attr_reader :id
+	attr_reader :plateau_name, :plateau_size, :grid  # init from Plateau class
 	attr_accessor :name, :start_position, :orders_from_NASA, :position, :facing, :rovers
 
 	@@COMPASS = ["N", "E", "S", "W"]  # set the reference for the directions the rover can face
 
-	def initialize(name, start_position, orders_from_NASA)
+	def initialize(plateau_name, plateau_size, grid, name, start_position, orders_from_NASA)
+		@plateau_name = plateau_name
+		@plateau_size = plateau_size
+		@grid = grid
+
 		@name = name
 		@start_position = start_position
 		@orders_from_NASA = orders_from_NASA.split('')
@@ -26,8 +43,8 @@ class	Rover
 	def process_orders
 		@orders_from_NASA.each do |order|
 			case order
-			when "L" then self.turn(-1)
-			when "R" then self.turn(1)
+			when "R" then self.turn(order)
+			when "L" then self.turn(order)
 			when "M" then self.move
 			else
 				puts "That is not a valid order."
@@ -37,16 +54,16 @@ class	Rover
 
 	def turn(change_direction)
 		case change_direction
-		when 1 then @facing = @facing.rotate(1)
-		when -1 then @facing = @facing.rotate(-1)
+		when "R" then @facing = @facing.rotate(1)
+		when "L" then @facing = @facing.rotate(-1)
 		end
 
 		self.is_facing
 	end
 
 	def is_facing
+		puts "#{@name} is facing #{@facing[0]}."
 		@is_facing = @facing[0]
-		puts "#{@name} is facing #{@is_facing[0]}"
 	end
 
 	def move
@@ -64,6 +81,7 @@ class	Rover
 
 	def hi
 		puts "Hi, I'm Rover #{@name}!"
+		puts "I'm located on plateau #{@plateau_name}."  # how can i call an instance variable from another class?
 		puts "My start_position is #{@start_position}."
 		puts "My position is #{@position}."
 		puts "I'm currently facing #{@is_facing}."
@@ -72,22 +90,8 @@ class	Rover
 end
 
 
-class Plateau
-	attr_accessor :name, :size, :grid
-
-	def initialize(name, size)
-		@name = name
-		@size = size
-		@grid = [(0...size),(0...size)]
-
-		puts "A plateau on #{@name} has been discovered that is #{@size} x #{@size} large."
-		puts "Let's explore it!"
-		puts "*~*~*~*~*~*~*~*~*~*~*~*~*~*"
-	end
-end
-
-
 ## Init variables sent from NASA
+plateau_name = "Mars"
 rover1_position = [1, 2, "N"]
 rover2_position = [3, 3, "E"]
 plateau_size = 10
@@ -96,11 +100,11 @@ plateau_size = 10
 rover1_directions = "LMLMLMLMM"
 rover2_directions = "MMRMMRMRRM"
 
-mars = Plateau.new("Mars", plateau_size)
+mars = Plateau.new(plateau_name, plateau_size)
 
 # instantiate two mars rovers with the above variables
-adam = Rover.new("Adam", rover1_position, rover1_directions)
-eve = Rover.new("Eve", rover2_position, rover2_directions)
+adam = Rover.new(plateau_name, plateau_size, grid = [(0...plateau_size,0...plateau_size], "Adam", rover1_position, rover1_directions)
+eve = Rover.new(plateau_name, plateau_size, grid = [0...plateau_size,0...plateau_size], "Eve", rover2_position, rover2_directions)
 adam
 eve
 
