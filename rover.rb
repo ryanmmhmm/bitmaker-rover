@@ -3,7 +3,8 @@
 # require_relative 'NASA.rb'  # put init values into separate file
 
 class	Rover
-	attr_accessor :name, :start_position, :orders_from_NASA, :position, :facing
+	attr_reader :id
+	attr_accessor :name, :start_position, :orders_from_NASA, :position, :facing, :rovers
 
 	@@COMPASS = ["N", "E", "S", "W"]  # set the reference for the directions the rover can face
 
@@ -72,11 +73,16 @@ end
 
 
 class Plateau
-	attr_accessor :size, :grid
+	attr_accessor :name, :size, :grid
 
-	def initialize(size)
+	def initialize(name, size)
+		@name = name
 		@size = size
 		@grid = [(0...size),(0...size)]
+
+		puts "A plateau on #{@name} has been discovered that is #{@size} x #{@size} large."
+		puts "Let's explore it!"
+		puts "*~*~*~*~*~*~*~*~*~*~*~*~*~*"
 	end
 end
 
@@ -84,26 +90,23 @@ end
 ## Init variables sent from NASA
 rover1_position = [1, 2, "N"]
 rover2_position = [3, 3, "E"]
+plateau_size = 10
 
 # movement directions for the rover(s)
 rover1_directions = "LMLMLMLMM"
 rover2_directions = "MMRMMRMRRM"
 
+mars = Plateau.new("Mars", plateau_size)
+
 # instantiate two mars rovers with the above variables
 adam = Rover.new("Adam", rover1_position, rover1_directions)
 eve = Rover.new("Eve", rover2_position, rover2_directions)
+adam
+eve
 
 adam.hi
 eve.hi
 
-adam.turn(1)
-adam.turn(1)
-adam.turn(1)
-adam.turn(1)
-adam.turn(-1)
-adam.turn(-1)
-adam.turn(-1)
-adam.turn(-1)
 
 adam.process_orders
 eve.process_orders
